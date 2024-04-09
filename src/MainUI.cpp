@@ -29,12 +29,32 @@ namespace EncryptedNotepad
     void MainUI::OnFileNew(wxCommandEvent& e)
     {
         wxFileDialog dialog(this, "New Encrypted Notepad file", wxEmptyString, wxEmptyString,
-        "Encrypted Notepad files (*.cryptnote)|*.cryptnote", wxFD_SAVE | wxFD_OVERWRITE_PROMPT);
+        "Encrypted Notepad files (*.cryptnote)|*.cryptnote", wxFD_SAVE);
 
         if (dialog.ShowModal() == wxID_CANCEL)
         {
             return;
         }
+
+        std::string path = dialog.GetPath().ToStdString();
+
+        if (!path.ends_with(".cryptnote"))
+        {
+            path += ".cryptnote";
+        }
+
+        if (std::filesystem::exists(path) && !std::filesystem::is_directory(path))
+        {
+            wxMessageDialog confDialog(this, std::filesystem::path(path).filename().string() + " already exists. Would you like to overwrite it?",
+            "Encrypted Notepad", wxYES_NO|wxCENTRE);
+
+            if (confDialog.ShowModal() != wxYES)
+            {
+                return;
+            }
+        }
+
+        
     }
 
     void MainUI::OnFileOpen(wxCommandEvent& e)

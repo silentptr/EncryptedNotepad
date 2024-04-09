@@ -1,6 +1,8 @@
 #ifndef ENCRYPTEDNOTEPAD_MAINUI_H_
 #define ENCRYPTEDNOTEPAD_MAINUI_H_
 
+#include <filesystem>
+
 #include <wx/wx.h>
 
 #define ENCRYPTEDNOTEPAD_ID_NEW  1000
